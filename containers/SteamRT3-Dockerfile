@@ -1,0 +1,11 @@
+FROM        registry.gitlab.steamos.cloud/steamrt/sniper/sdk:latest-container-runtime-depot
+LABEL       author="Source2ZE"
+LABEL       org.opencontainers.image.description Docker container used as a build environment for our plugins
+LABEL       org.opencontainers.image.source="https://github.com/Source2ZE/build-containers"
+
+ENV         DEBIAN_FRONTEND=noninteractive
+RUN         echo "deb http://apt.llvm.org/bullseye/ llvm-toolchain-bullseye-22 main" >> /etc/apt/sources.list.d/llvm.list
+RUN         echo "deb-src http://apt.llvm.org/bullseye/ llvm-toolchain-bullseye-22 main" >> /etc/apt/sources.list.d/llvm.list
+RUN         wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+RUN         apt update && apt install -y clang-22 && apt clean
+RUN         ln -sf /usr/bin/clang-22 /usr/bin/clang && ln -sf /usr/bin/clang++-22 /usr/bin/clang++
