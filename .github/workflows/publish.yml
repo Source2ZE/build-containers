@@ -1,7 +1,11 @@
 name: publish
-on: [workflow_dispatch]
+on:
+  workflow_dispatch:
+  push:
+  schedule:
+    - cron: '0 0 1 * *'
 jobs:
-  publish-docker-image:
+  publish-docker-images:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' # Running this job only for main branch
     steps:
