@@ -15,3 +15,15 @@ RUN         ln -sf /usr/bin/clang-22 /usr/bin/clang && ln -sf /usr/bin/clang++-2
 # Install AMBuild
 RUN         git clone https://github.com/alliedmodders/ambuild
 RUN         cd ambuild && python setup.py install
+
+# Install Premake5
+RUN         wget -O premake.tar.gz https://github.com/premake/premake-core/archive/refs/tags/v5.0.0-beta8.tar.gz
+RUN         tar -xzf premake.tar.gz
+RUN         make -C premake-core-5.0.0-beta8 -f Bootstrap.mak linux
+RUN         install premake-core-5.0.0-beta8/bin/release/premake5 /usr/local/bin/premake5
+RUN         rm -rf premake*
+
+# Install xmake
+RUN         curl -fsSL https://xmake.io/shget.text | bash -s v3.1.0
+RUN         ln -sf /root/.local/bin/xmake /usr/bin/xmake
+ENV         XMAKE_ROOT=y
